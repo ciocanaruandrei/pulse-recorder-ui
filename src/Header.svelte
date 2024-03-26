@@ -45,6 +45,8 @@
       </NavLi>
     </Link>
 
-    <DarkMode class="text-primary-500 dark:text-primary-600 border-dark-600 dark:border-white-text border" />
+    <DarkMode
+      class="text-primary-500 dark:text-primary-600 border-dark-600 dark:border-white-text dark:bg-dark-600 bg-white-base border"
+    />
   </NavUl>
 </Navbar>

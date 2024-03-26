@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Navbar, NavBrand, NavLi, NavUl, NavHamburger } from "flowbite-svelte";
-  import NavContainer from "flowbite-svelte/NavContainer.svelte";
   import logo from "./assets/images/logo.svg";
   import { Link } from "svelte-routing";
   import { DarkMode } from "flowbite-svelte";

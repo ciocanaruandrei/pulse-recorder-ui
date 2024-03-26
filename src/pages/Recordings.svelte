@@ -3,18 +3,24 @@
   import apiRequest from "../lib/api";
   import RecordingsTable from "../lib/components/RecordingsTable.svelte";
   import type { Recording, RecordingsResponse } from "../lib/Types";
-  import { Button, Dropdown, DropdownItem, Input } from "flowbite-svelte";
-  import { Calendar } from "$lib/components/ui/calendar/index.js";
-  import { type DateValue } from "@internationalized/date";
+  import { Button, Dropdown, DropdownItem, Input, Modal } from "flowbite-svelte";
+  import { CalendarDate, type DateValue } from "@internationalized/date";
   import { formatDate } from "date-fns/format";
+  import { RangeCalendar } from "$lib/components/ui/range-calendar/index.js";
+  import type { DateRange } from "bits-ui";
 
   let recordings: Recording[] = [];
   let totalPages = 0;
   let currentPage = 1;
   let perPage = 10;
+  let dateModal = false;
 
-  let date: DateValue | undefined = undefined;
-  let selectedDate = formatDate(new Date(), "dd.MM.yyyy");
+  let value: DateRange | undefined = {
+    start: new CalendarDate(2022, 1, 20),
+    end: new CalendarDate(2022, 1, 20).add({ days: 20 }),
+  };
+
+  let startValue: DateValue | undefined = undefined;
 
   onMount(() => {
     recordingRequest();
@@ -53,7 +59,6 @@
 
   let changeDate = (date: DateValue | undefined) => {
     if (date) {
-      selectedDate = date.day + "." + date.month + "." + date.year;
     }
   };
 
@@ -69,7 +74,7 @@
     });
   };
 
-  $: date, changeDate(date);
+  $: value, console.log(value);
 </script>
 
 <div>
@@ -78,18 +83,32 @@
     <h3 class="text-dark-600 dark:text-white-text text-4xl font-bold">All recordings</h3>
   </div>
 
-  {#if recordings.length}
-    <div class="my-7 flex justify-between">
-      <div>
-        <Button
-          class="dark:!bg-logo-500 hover:dark:!bg-dark-300 me-2 flex w-36 items-center justify-between gap-3 rounded-md border-2 px-2"
-        >
-          <span class="material-symbols-outlined">calendar_month</span>
-          {selectedDate}
-        </Button>
-        <Dropdown>
-          <Calendar bind:value={date} />
-        </Dropdown>
+  {#if recordings.length || true}
+    <div class="my-7 flex items-end justify-between">
+      <div class="flex flex-col">
+        <div class="dark:text-white-text mb-5 flex items-center gap-1 text-xl">
+          <span class="material-symbols-outlined text-table-icon text-3xl">manage_search</span>
+          <span class="mt-1 text-xl">Search by date</span>
+        </div>
+        <div class="flex items-center gap-5">
+          <Button
+            on:click={() => (dateModal = true)}
+            class="hover:dark:!bg-dark-300 me-2 flex w-52 items-center justify-between gap-3 rounded-md border-2 px-2"
+          >
+            <span class="material-symbols-outlined">calendar_month</span>
+            <span>Start date:</span>
+          </Button>
+          <Modal bind:open={dateModal} autoclose outsideclose size="md">
+            <div class="p-5">
+              <div class="mb-10 flex items-center gap-1">
+                <span class="material-symbols-outlined text-logo-500 text-4xl">date_range</span>
+                <h3 class="text-dark-600 dark:text-white-text text-3xl font-bold">Choose a start / end date</h3>
+              </div>
+              <RangeCalendar bind:value bind:startValue placeholder={value?.start} initialFocus numberOfMonths={2} />
+            </div>
+          </Modal>
+          <div class="">-</div>
+        </div>
       </div>
       <div class="flex gap-2">
         <Button id="dropdown-btn" class="dark:!bg-dark-100 hover:dark:!bg-dark-300 me-2 rounded-md border-2 pl-5 pr-2">

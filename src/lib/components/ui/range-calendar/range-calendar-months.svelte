@@ -9,10 +9,7 @@
 </script>
 
 <div
-  class={cn(
-    "bg-white-mantle dark:text-white-base dark:bg-dark-750 mt-4 flex flex-col space-y-4 rounded-md sm:flex-row sm:space-x-4 sm:space-y-0",
-    className,
-  )}
+  class={cn("dark:text-white-base mt-4 flex flex-col space-y-4 rounded-md sm:flex-row sm:space-x-4 sm:space-y-0", className)}
   {...$$restProps}
 >
   <slot />

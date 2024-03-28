@@ -24,7 +24,7 @@
 
   let handleShareModal = async (id: number) => {
     openShareModal = true;
-    const url = "/recordings/" + id + "/share-link";
+    const url = "/api/recordings/" + id + "/share-link";
     const res = await apiRequest<ShareLink>({ method: "GET", url });
     shareLink = baseUrl + res.url;
     shareExpire = res.expires;
@@ -39,12 +39,12 @@
 
   let handlePlayerModal = async (filename: string) => {
     openPlayerModal = true;
-    audioSrc = baseUrl + "/recordings/file/" + filename;
+    audioSrc = baseUrl + "/api/recordings/file/" + filename;
   };
 </script>
 
 <div
-  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base my-5 grid grid-cols-5 gap-0.5 rounded-lg border-2"
+  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base mb-14 mt-5 grid grid-cols-5 gap-0.5 rounded-lg border-2"
 >
   {#each recordingsHeader as recording}
     <div

@@ -2,10 +2,10 @@
   import { onMount } from "svelte";
   import apiRequest from "../lib/api";
   import RecordingsTable from "../lib/components/RecordingsTable.svelte";
-  import type { Recording, RecordingsResponse } from "../lib/Types";
+  import type { Recording, RecordingsResponse, RecoringQuery } from "../lib/Types";
   import { Button, Dropdown, DropdownItem, Input, Modal } from "flowbite-svelte";
   import { CalendarDate, type DateValue } from "@internationalized/date";
-  import { formatDate } from "date-fns/format";
+  import { parse } from "date-fns";
   import { RangeCalendar } from "$lib/components/ui/range-calendar/index.js";
   import type { DateRange } from "bits-ui";
 
@@ -14,13 +14,13 @@
   let currentPage = 1;
   let perPage = 10;
   let dateModal = false;
+  let calendarKey = 0;
+  let hours = "00";
+  let minutes = "00";
+  let startDate = -1;
 
-  let value: DateRange | undefined = {
-    start: new CalendarDate(2022, 1, 20),
-    end: new CalendarDate(2022, 1, 20).add({ days: 20 }),
-  };
-
-  let startValue: DateValue | undefined = undefined;
+  let value: DateRange | undefined;
+  let startValue: DateValue | undefined;
 
   onMount(() => {
     recordingRequest();
@@ -57,24 +57,83 @@
     recordingRequest();
   };
 
-  let changeDate = (date: DateValue | undefined) => {
-    if (date) {
+  let resetDate = () => {
+    value = undefined;
+    startValue = undefined;
+    startDate = -1;
+    calendarKey++;
+    hours = "00";
+    minutes = "00";
+  };
+
+  let changeHours = (event: Event) => {
+    let value = (event.target as HTMLInputElement).value;
+    hours = formatTime(value, 23);
+  };
+
+  let changeMinutes = (event: Event) => {
+    let value = (event.target as HTMLInputElement).value;
+    minutes = formatTime(value, 59);
+  };
+
+  let formatTime = (value: string, max: number) => {
+    let number = parseInt(value.slice(-2));
+    if (isNaN(number)) {
+      return "00";
     }
+
+    if (number < 0) {
+      return formatTime(Math.abs(number).toString(), max);
+    }
+
+    if (number > max) {
+      number = number % 10;
+    }
+
+    if (number < 10) {
+      return "0" + number;
+    }
+
+    return number.toString();
+  };
+
+  let filterByDate = () => {
+    dateModal = false;
+    if (startValue) {
+      let date = new CalendarDate(startValue.year, startValue.month, startValue.day);
+      if (value === undefined) {
+        value = {
+          start: date,
+          end: undefined,
+        };
+      }
+      startDate = parse(
+        startValue.day + "/" + startValue.month + "/" + startValue.year + "-" + hours + ":" + minutes,
+        "dd/MM/yyyy-HH:mm",
+        new Date(),
+      ).getTime();
+      currentPage = 1;
+    }
+
+    recordingRequest();
   };
 
   let recordingRequest = () => {
-    const url = "/recordings";
-    const query = {
+    let query: RecoringQuery = {
       page: currentPage - 1,
       perPage: perPage,
     };
+    if (startDate > 1) {
+      query.start = startDate;
+    }
+    const url = "/api/recordings";
     apiRequest<RecordingsResponse>({ method: "GET", url, query }).then((result) => {
       recordings = result.recordings;
       totalPages = result.pages;
     });
   };
 
-  $: value, console.log(value);
+  $: value, console.log(value, startValue);
 </script>
 
 <div>
@@ -83,7 +142,7 @@
     <h3 class="text-dark-600 dark:text-white-text text-4xl font-bold">All recordings</h3>
   </div>
 
-  {#if recordings.length || true}
+  {#if recordings.length}
     <div class="my-7 flex items-end justify-between">
       <div class="flex flex-col">
         <div class="dark:text-white-text mb-5 flex items-center gap-1 text-xl">
@@ -98,15 +157,6 @@
             <span class="material-symbols-outlined">calendar_month</span>
             <span>Start date:</span>
           </Button>
-          <Modal bind:open={dateModal} autoclose outsideclose size="md">
-            <div class="p-5">
-              <div class="mb-10 flex items-center gap-1">
-                <span class="material-symbols-outlined text-logo-500 text-4xl">date_range</span>
-                <h3 class="text-dark-600 dark:text-white-text text-3xl font-bold">Choose a start / end date</h3>
-              </div>
-              <RangeCalendar bind:value bind:startValue placeholder={value?.start} initialFocus numberOfMonths={2} />
-            </div>
-          </Modal>
           <div class="">-</div>
         </div>
       </div>
@@ -148,3 +198,45 @@
   {/if}
   <RecordingsTable {recordings} />
 </div>
+
+<Modal bind:open={dateModal} autoclose class="dark:bg-dark-800 bg-white-text">
+  <div class="flex items-end gap-1">
+    <span class="material-symbols-outlined text-logo-500 text-3xl">date_range</span>
+    <h3 class="text-dark-600 dark:text-white-text text-2xl font-bold">Choose a start / end date</h3>
+  </div>
+  <div class="py-5">
+    {#key calendarKey}
+      <RangeCalendar bind:value bind:startValue placeholder={value?.start} initialFocus numberOfMonths={2} />
+    {/key}
+  </div>
+  {#if startValue}
+    <div class="grid grid-cols-2 gap-1 pb-5">
+      <div class="">
+        <div class="flex items-end gap-1 pb-2">
+          <span class="material-symbols-outlined text-logo-500 text-3xl">schedule</span>
+          <h3 class="text-dark-600 dark:text-white-text text-2xl font-bold">Choose start hour</h3>
+        </div>
+        <div class="dark:border-dark-300 dark:text-white-text inline-block rounded-lg border p-1">
+          <input type="number" class="w-24 border-none bg-transparent text-center" bind:value={hours} on:input={changeHours} />
+          <span>:</span>
+          <input
+            type="number"
+            class="w-24 border-none bg-transparent text-center"
+            bind:value={minutes}
+            on:input={changeMinutes}
+          />
+        </div>
+      </div>
+    </div>
+  {/if}
+  <div class="flex items-center justify-between">
+    <Button on:click={resetDate} color="red" class="flex items-center justify-between gap-1">
+      <span class="material-symbols-outlined">restart_alt</span>
+      <span class="text-lg">Reset</span>
+    </Button>
+    <Button on:click={filterByDate} color="green" class="flex items-center justify-between gap-1">
+      <span class="material-symbols-outlined">check</span>
+      <span class="text-lg">Save</span>
+    </Button>
+  </div>
+</Modal>

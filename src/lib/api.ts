@@ -8,7 +8,7 @@ type RequestParams = {
 };
 
 export default async function apiRequest<T>({ method, url, body, query }: RequestParams): Promise<T> {
-  const reqUrl = import.meta.env.VITE_BASE_URL + "/api" + url;
+  const reqUrl = import.meta.env.VITE_BASE_URL + url;
   try {
     const res = await ky(reqUrl, {
       method,

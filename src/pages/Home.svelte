@@ -7,7 +7,7 @@
   let recordings: Recording[] = [];
 
   onMount(() => {
-    const url = "/recordings";
+    const url = "/api/recordings";
     const query = {
       page: 0,
       perPage: 10,

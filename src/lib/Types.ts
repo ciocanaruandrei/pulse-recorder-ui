@@ -14,7 +14,32 @@ export type Recording = {
   expires: Date;
 };
 
+export type RecoringQuery = {
+  page: number;
+  perPage: number;
+  start?: number;
+  end?: number;
+};
+
 export type ShareLink = {
   url: string;
   expires: Date;
+};
+
+export type AuthStateResponse = {
+  isAuthenticated: boolean;
+  user: {
+    email: string;
+    [key: string]: string;
+  };
+};
+
+export type AuthCapabilitiesResponse = {
+  samlSso: {
+    enabled: boolean;
+    loginUrl: string;
+  };
+  credentials: {
+    enabled: boolean;
+  };
 };

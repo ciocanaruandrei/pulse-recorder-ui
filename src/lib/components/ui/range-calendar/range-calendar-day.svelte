@@ -19,11 +19,11 @@
   class={cn(
     buttonVariants({ variant: "ghost" }),
     "h-9 w-9 p-0 font-normal data-[selected]:opacity-100",
-    "[&[data-today]:not([data-selected])]:bg-logo-300 [&[data-today]:not([data-selected])]:text-accent-foreground",
+    "[&[data-today]:not([data-selected])]:bg-logo-300 [&[data-today]:not([data-selected])]:text-dark-500",
     // Selection Start
-    "data-[selection-start]:bg-logo-500 data-[selection-start]:text-primary-foreground data-[selection-start]:hover:bg-primary data-[selection-start]:hover:text-primary-foreground data-[selection-start]:focus:bg-primary data-[selection-start]:focus:text-primary-foreground",
+    "data-[selection-start]:bg-logo-500 data-[selection-start]:text-white-base data-[selection-start]:hover:bg-primary data-[selection-start]:hover:text-primary-foreground data-[selection-start]:focus:bg-primary data-[selection-start]:focus:text-primary-foreground",
     // Selection End
-    "data-[selection-end]:bg-logo-500 data-[selection-end]:text-primary-foreground data-[selection-end]:hover:bg-primary data-[selection-end]:hover:text-primary-foreground data-[selection-end]:focus:bg-primary data-[selection-end]:focus:text-primary-foreground",
+    "data-[selection-end]:bg-logo-500 data-[selection-end]:text-white-base data-[selection-end]:hover:bg-primary data-[selection-end]:hover:text-primary-foreground data-[selection-end]:focus:bg-primary data-[selection-end]:focus:text-primary-foreground",
     // Outside months
     "data-[outside-month]:text-muted-foreground [&[data-outside-month][data-selected]]:bg-accent/50 [&[data-outside-month][data-selected]]:text-muted-foreground data-[outside-month]:select-none data-[outside-month]:opacity-50 data-[outside-month]:hover:cursor-not-allowed [&[data-outside-month][data-selected]]:opacity-30",
     // Disabled

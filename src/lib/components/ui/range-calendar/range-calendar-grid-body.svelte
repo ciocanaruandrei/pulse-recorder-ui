@@ -9,8 +9,7 @@
 </script>
 
 <RangeCalendarPrimitive.GridBody
-  class={cn("dark:bg-dark-750 bg-white-mantle dark:border-dark-100 h-full border border-t-0 border-gray-300", className)}
-  {...$$restProps}
->
+  class={cn("dark:bg-dark-750 bg-white-mantle dark:border-dark-100 border border-t-0 border-gray-300", className)}
+  {...$$restProps}>
   <slot />
 </RangeCalendarPrimitive.GridBody>

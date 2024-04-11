@@ -44,21 +44,18 @@
 </script>
 
 <div
-  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base mb-14 mt-5 grid grid-cols-5 gap-0.5 rounded-lg border-2"
->
+  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base mb-14 mt-5 grid grid-cols-5 gap-0.5 rounded-lg border-2">
   {#each recordingsHeader as recording}
     <div
       class="bg-logo-700 dark:bg-table-hdark text-white-mantle mx-auto flex w-full justify-center gap-1 p-3 text-xl font-semibold
-      {recording.class ?? ''}"
-    >
+      {recording.class ?? ''}">
       <span class="text-table-icon">{@html recording.icon}</span>
       <span>{recording.title}</span>
     </div>
   {/each}
   {#if !recordings.length}
     <div
-      class="text-dark-600 dark:text-white-base bg-white-mantle dark:bg-dark-500 border-b-lg col-span-5 mx-auto flex w-full items-center justify-center p-3 text-3xl"
-    >
+      class="text-dark-600 dark:text-white-base bg-white-mantle dark:bg-dark-500 border-b-lg col-span-5 mx-auto flex w-full items-center justify-center p-3 text-3xl">
       There are currently no recordings.
     </div>
   {/if}
@@ -67,15 +64,13 @@
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
         : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base mx-auto flex w-full items-center justify-center p-3
-        {i + 1 === recordings.length ? 'rounded-bl-lg' : ''}"
-    >
+        {i + 1 === recordings.length ? 'rounded-bl-lg' : ''}">
       {recording.id}
     </div>
     <div
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
-        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base col-span-2 mx-auto flex w-full items-center justify-evenly p-3"
-    >
+        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base col-span-2 mx-auto flex w-full items-center justify-evenly p-3">
       <div class="">{format(recording.start, dateFormat)}</div>
       <div class="text-lg font-bold">{format(recording.start, "HH:mm")} - {format(recording.end, "HH:mm")}</div>
       <div>{formatDistance(recording.start, recording.end)}</div>
@@ -83,16 +78,14 @@
     <div
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
-        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base mx-auto flex w-full items-center justify-center p-3"
-    >
+        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base mx-auto flex w-full items-center justify-center p-3">
       {formatDistance(recording.expires, new Date())}
     </div>
     <div
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
         : 'bg-white-text dark:bg-dark-800'} text-white-base dark:text-dark-600 mx-auto flex w-full items-center justify-center p-3
-        {i + 1 === recordings.length ? 'rounded-br-lg' : ''}"
-    >
+        {i + 1 === recordings.length ? 'rounded-br-lg' : ''}">
       <div class="flex flex-row items-center justify-center gap-3">
         <a href="#" on:click={() => handlePlayerModal(recording.file)} title="Play">
           <span class="text-table-play material-symbols-outlined text-3xl">play_circle</span>
@@ -116,8 +109,7 @@
         class="bg-dark-900 dark:bg-white-crust dark:text-dark-800 !left-auto right-4 flex w-44 font-semibold text-white"
         triggeredBy="#share-link"
         trigger="focus"
-        bind:this={popover}
-      >
+        bind:this={popover}>
         <div class="flex w-full items-center justify-between gap-2">
           <span class="material-symbols-outlined text-base">content_copy</span>
           <span class="text-sm">Copied to clipboard!</span>
@@ -128,10 +120,9 @@
       id="share-link"
       type="text"
       placeholder="Link"
-      class="focus:ring-logo-500 focus:border-logo-500 !rounded-lg focus:outline-none focus:ring-2"
+      class="custom-input"
       bind:value={shareLink}
-      on:focus={copyToClipboard}
-    />
+      on:focus={copyToClipboard} />
     <div class="mt-10 flex items-center justify-between">
       <div class="dark:text-white-text text-md text-dark-500 font-normal">
         Expires in:

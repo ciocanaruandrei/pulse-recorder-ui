@@ -8,7 +8,7 @@
   import apiRequest from "$lib/api";
   import type { AuthStateResponse } from "$lib/Types";
 
-  let isAuthenticated = false;
+  let isAuthenticated = true;
   let username = "";
 
   onMount(() => {

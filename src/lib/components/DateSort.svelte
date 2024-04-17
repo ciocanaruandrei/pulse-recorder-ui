@@ -5,6 +5,7 @@
   import { CalendarDate, type DateValue } from "@internationalized/date";
   import { parse } from "date-fns";
   import { createEventDispatcher } from "svelte";
+  import AudioSegmentModal from "./AudioSegmentModal.svelte";
 
   let dateModal = false;
   let calendarKey = 0;
@@ -16,8 +17,15 @@
   let endDate = -1;
   const dispatch = createEventDispatcher();
 
+  let audioModal = false;
+
   let value: DateRange | undefined;
   let startValue: DateValue | undefined;
+
+  let openDateModal = () => {
+    dateModal = true;
+    audioModal = false;
+  };
 
   let filterByDate = () => {
     dateModal = false;
@@ -132,6 +140,11 @@
     dispatch("dateChange", data);
   };
 
+  let getAudioSegment = () => {
+    dateModal = false;
+    audioModal = true;
+  };
+
   //$: value, console.log(value, startValue);
 </script>
 
@@ -142,7 +155,7 @@
   </div>
   <div class="flex items-center gap-5">
     <Button
-      on:click={() => (dateModal = true)}
+      on:click={openDateModal}
       class="hover:dark:!bg-dark-300 me-2 flex items-center justify-between gap-5 rounded-md border-2 px-2 border-dark-100 dark:border-white-crust">
       <span class="material-symbols-outlined text-logo-500">calendar_month</span>
       <span class="dark:text-white text-dark-800">Choose a date</span>
@@ -240,9 +253,21 @@
       <span class="material-symbols-outlined">restart_alt</span>
       <span class="text-lg">Reset</span>
     </Button>
-    <Button on:click={filterByDate} color="green" class="flex items-center justify-between gap-1">
-      <span class="material-symbols-outlined">check</span>
-      <span class="text-lg">Save</span>
-    </Button>
+    <div class="flex items-center gap-2">
+      {#if startValue && !value?.end}
+        <Button on:click={getAudioSegment} color="blue" class="flex items-center justify-between gap-1">
+          <span class="material-symbols-outlined">play_arrow</span>
+          <span class="text-lg">Listen this segment</span>
+        </Button>
+      {/if}
+      <Button on:click={filterByDate} color="green" class="flex items-center justify-between gap-1">
+        <span class="material-symbols-outlined">check</span>
+        <span class="text-lg">Save</span>
+      </Button>
+    </div>
   </div>
 </Modal>
+
+{#if audioModal}
+  <AudioSegmentModal {audioModal}></AudioSegmentModal>
+{/if}

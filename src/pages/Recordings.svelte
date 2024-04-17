@@ -39,7 +39,6 @@
   };
 
   let recordingRequest = () => {
-    console.log(currentPage, perPage);
     let query: RecoringQuery = {
       page: currentPage - 1,
       perPage: perPage,

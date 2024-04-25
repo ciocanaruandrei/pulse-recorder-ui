@@ -47,7 +47,7 @@
   };
 </script>
 
-<div class="flex gap-2">
+<div class="flex gap-2 max-sm:pt-5 max-sm:justify-between">
   <Button
     id="dropdown-btn"
     class="dark:!bg-dark-100 hover:dark:!bg-dark-300 bg-white-crust text-dark-500 dark:text-white dark:border-white-text border-dark-100 me-2 rounded-md border-2 pl-5 pr-2">
@@ -61,7 +61,7 @@
     <DropdownItem on:click={() => changePerPage(100)}>100</DropdownItem>
   </Dropdown>
   <div
-    class="dark:border-white-crust dark:text-white-text dark:bg-dark-800 border-dark-100 bg-white-base flex items-center justify-between gap-8 rounded-md border-2 p-2">
+    class="dark:border-white-crust dark:text-white-text dark:bg-dark-800 border-dark-100 bg-white-base flex items-center justify-between gap-8 rounded-md border-2 p-2 max-sm:gap-0">
     <a href="#" on:click={prevPage} class="flex" title="Previous page">
       <span class="material-symbols-outlined text-[32px]">chevron_left</span>
     </a>

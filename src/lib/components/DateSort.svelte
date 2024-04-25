@@ -153,7 +153,7 @@
     <span class="material-symbols-outlined text-table-icon text-3xl">manage_search</span>
     <span class="mt-1 text-xl">Search by date</span>
   </div>
-  <div class="flex items-center gap-5">
+  <div class="flex items-center gap-5 max-sm:flex-col max-sm:items-start">
     <Button
       on:click={openDateModal}
       class="hover:dark:!bg-dark-300 me-2 flex items-center justify-between gap-5 rounded-md border-2 px-2 border-dark-100 dark:border-white-crust">
@@ -205,7 +205,7 @@
     {/key}
   </div>
   {#if startValue}
-    <div class="grid grid-cols-2 gap-1 pb-5">
+    <div class="grid grid-cols-2 gap-1 pb-5 max-sm:grid-cols-1">
       <div class="">
         <div class="flex items-end gap-1 pb-2">
           <span class="material-symbols-outlined text-logo-500 text-3xl">schedule</span>
@@ -248,12 +248,12 @@
       </div>
     </div>
   {/if}
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between max-sm:items-start">
     <Button on:click={resetDates} color="red" class="flex items-center justify-between gap-1">
       <span class="material-symbols-outlined">restart_alt</span>
       <span class="text-lg">Reset</span>
     </Button>
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-2 shrink-0 max-sm:flex-col-reverse max-sm:items-end">
       {#if startValue && !value?.end}
         <Button on:click={getAudioSegment} color="blue" class="flex items-center justify-between gap-1">
           <span class="material-symbols-outlined">play_arrow</span>

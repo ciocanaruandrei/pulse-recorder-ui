@@ -80,6 +80,10 @@
     audio.currentTime += 15;
   };
 
+  let stopAudio = () => {
+    audio.pause();
+  };
+
   let updateVolume = () => {
     audio.volume = volume;
   };
@@ -100,7 +104,7 @@
   };
 </script>
 
-<Modal bind:open={audioModal} class="dark:bg-dark-800 bg-white">
+<Modal bind:open={audioModal} on:close={stopAudio} class="dark:bg-dark-800 bg-white">
   <div class="flex items-end gap-1 !mb-10">
     <span class="material-symbols-outlined text-table-icon text-3xl">music_note</span>
     <h3 class="text-dark-600 dark:text-white-text text-2xl font-bold">Audio file</h3>
@@ -122,7 +126,7 @@
       on:mousemove={placeTooltip}
       class="w-full bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 h-2" />
   </div>
-  <div class="flex items-end justify-between pt-3">
+  <div class="flex items-end justify-between pt-3 max-sm:flex-col max-sm:items-start max-sm:gap-3">
     <div
       class="flex items-center gap-4 px-3 py-4 bg-white-base dark:bg-dark-900 rounded-md border-gray-400 dark:border-dark-600 border">
       <a

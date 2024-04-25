@@ -35,7 +35,7 @@
   <Router>
     <Header {isAuthenticated} {username} />
 
-    <div class="container mx-auto mt-10 p-3">
+    <div class="container mx-auto mt-10 p-3 max-sm:px-0">
       {#if isAuthenticated}
         <Route path="/" component={Home} />
         <Route path="/recordings" component={Recordings} />

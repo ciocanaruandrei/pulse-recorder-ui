@@ -65,7 +65,7 @@
   </div>
 
   {#if recordings.length}
-    <div class="my-7 flex items-end justify-between">
+    <div class="my-7 flex items-end justify-between max-sm:block">
       <DateSort on:dateChange={dateChange}></DateSort>
       <TablePagination {totalPages} on:pageChange={pageChange}></TablePagination>
     </div>

@@ -5,9 +5,16 @@
   import type { Recording, ShareLink } from "../Types";
 
   let recordingsHeader = [
-    { title: "ID", icon: '<span class="material-symbols-outlined">tag</span>', class: "rounded-tl-lg" },
-    { title: "Duration", icon: '<span class="material-symbols-outlined">timer</span>', class: "col-span-2" },
-    { title: "Expires in", icon: '<span class="material-symbols-outlined">work_history</span>' },
+    { title: "ID", icon: '<span class="material-symbols-outlined">tag</span>', class: "rounded-tl-lg max-sm:hidden" },
+    {
+      title: "Duration",
+      icon: '<span class="material-symbols-outlined">timer</span>',
+      class: "col-span-2 max-sm:col-span-1 max-sm:rounded-tl-lg",
+    },
+    {
+      title: "Expires <span class='max-sm:hidden'>in</span>",
+      icon: '<span class="material-symbols-outlined">work_history</span>',
+    },
     { title: "Actions", icon: '<span class="material-symbols-outlined">right_click</span>', class: "rounded-tr-lg" },
   ];
 
@@ -44,13 +51,13 @@
 </script>
 
 <div
-  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base mb-14 mt-5 grid grid-cols-5 gap-0.5 rounded-lg border-2">
+  class="bg-dark-500 dark:bg-white-base border-dark-500 dark:border-white-base mb-14 mt-5 grid grid-cols-5 gap-0.5 rounded-lg border-2 max-sm:grid-cols-3">
   {#each recordingsHeader as recording}
     <div
       class="bg-logo-700 dark:bg-table-hdark text-white-mantle mx-auto flex w-full justify-center gap-1 p-3 text-xl font-semibold
       {recording.class ?? ''}">
       <span class="text-table-icon">{@html recording.icon}</span>
-      <span>{recording.title}</span>
+      <span>{@html recording.title}</span>
     </div>
   {/each}
   {#if !recordings.length}
@@ -63,16 +70,18 @@
     <div
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
-        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base mx-auto flex w-full items-center justify-center p-3
+        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base mx-auto flex w-full items-center justify-center p-3 max-sm:hidden
         {i + 1 === recordings.length ? 'rounded-bl-lg' : ''}">
       {recording.id}
     </div>
     <div
       class="{i % 2 === 0
         ? 'bg-white-mantle dark:bg-dark-500'
-        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base col-span-2 mx-auto flex w-full items-center justify-evenly p-3">
+        : 'bg-white-text dark:bg-dark-800'} text-dark-600 dark:text-white-base col-span-2 mx-auto flex w-full items-center justify-evenly p-3 max-sm:col-span-1 max-sm:flex-col max-sm:text-center max-sm:p-1">
       <div class="">{format(recording.start, dateFormat)}</div>
-      <div class="text-lg font-bold">{format(recording.start, "HH:mm")} - {format(recording.end, "HH:mm")}</div>
+      <div class="text-lg font-bold max-sm:text-md">
+        {format(recording.start, "HH:mm")} - {format(recording.end, "HH:mm")}
+      </div>
       <div>{formatDistance(recording.start, recording.end)}</div>
     </div>
     <div
@@ -86,7 +95,7 @@
         ? 'bg-white-mantle dark:bg-dark-500'
         : 'bg-white-text dark:bg-dark-800'} text-white-base dark:text-dark-600 mx-auto flex w-full items-center justify-center p-3
         {i + 1 === recordings.length ? 'rounded-br-lg' : ''}">
-      <div class="flex flex-row items-center justify-center gap-3">
+      <div class="flex flex-row items-center justify-center gap-3 max-sm:flex-col max-sm:gap-1">
         <a href="#" on:click={() => handlePlayerModal(recording.file)} title="Play">
           <span class="text-table-play material-symbols-outlined text-3xl">play_circle</span>
         </a>
